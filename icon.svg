@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2b2145"/>
+      <stop offset="1" stop-color="#14101f"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.47" cy="0.52" r="0.55">
+      <stop offset="0" stop-color="#8b5cf6" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="0" y="0" width="512" height="512" rx="100" fill="url(#bg)"/>
+  <rect x="0" y="0" width="512" height="512" rx="100" fill="url(#glow)"/>
+
+  <!-- crystal: four facets, lit from upper right -->
+  <g>
+    <polygon points="240,92 326,238 240,306" fill="#c4b5fd"/>
+    <polygon points="240,92 154,238 240,306" fill="#7c3aed"/>
+    <polygon points="326,238 240,432 240,306" fill="#a78bfa"/>
+    <polygon points="154,238 240,432 240,306" fill="#5b21b6"/>
+  </g>
+
+  <!-- AI spark -->
+  <path d="M386,74 C392,116 402,126 444,132 C402,138 392,148 386,190 C380,148 370,138 328,132 C370,126 380,116 386,74 Z" fill="#e8825a"/>
+  <path d="M432,190 C434.5,204 438,207.5 452,210 C438,212.5 434.5,216 432,230 C429.5,216 426,212.5 412,210 C426,207.5 429.5,204 432,190 Z" fill="#f0a37f"/>
+</svg>

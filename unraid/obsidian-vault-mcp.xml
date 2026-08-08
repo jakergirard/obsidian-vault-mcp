@@ -9,7 +9,8 @@
   <Support>https://github.com/jakergirard/obsidian-vault-mcp/issues</Support>
   <Project>https://github.com/jakergirard/obsidian-vault-mcp</Project>
   <Overview>MCP server + Obsidian Sync in one container. Keeps a live copy of your Obsidian vault synced via obsidian-headless and exposes it to Claude (or any MCP client) over Streamable HTTP with bearer-token auth, so Claude can read and write your notes from any device. Requires an Obsidian Sync subscription. To reach it from Claude web/mobile you must expose it over public HTTPS (Tailscale Funnel, Cloudflare Tunnel, or a reverse proxy) because Claude's connectors originate from Anthropic's cloud. See the project README for setup recipes. Note: obsidian-headless is downloaded from npm on first start (it is not bundled in the image).</Overview>
-  <Category>Productivity: Tools:</Category>
+  <Description>Keeps a live copy of your Obsidian vault synced via obsidian-headless and exposes it to Claude (or any MCP client) over Streamable HTTP with bearer-token auth. Claude can read, write, patch, and search your notes from web, mobile, or desktop; edits sync back to all devices via Obsidian Sync. Requires an Obsidian Sync subscription. Expose via Tailscale Funnel, Cloudflare Tunnel, or reverse proxy for Claude web/mobile (connectors originate from Anthropic's cloud). See README for recipes.</Description>
+  <Category>Productivity: Tools:Utilities</Category>
   <WebUI/>
   <TemplateURL>https://raw.githubusercontent.com/jakergirard/obsidian-vault-mcp/main/unraid/obsidian-vault-mcp.xml</TemplateURL>
   <Icon>https://raw.githubusercontent.com/jakergirard/obsidian-vault-mcp/main/icon.png</Icon>
