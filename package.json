@@ -1,0 +1,24 @@
+{
+  "name": "obsidian-vault-mcp",
+  "version": "1.0.0",
+  "description": "MCP server + Obsidian Sync (obsidian-headless) in one container, so Claude can read/write your Obsidian vault from any device",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakergirard/obsidian-vault-mcp.git"
+  },
+  "author": "Jake Girard",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "express": "^4.21.2",
+    "zod": "^3.24.1"
+  }
+}

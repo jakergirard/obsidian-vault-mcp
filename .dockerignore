@@ -1,0 +1,7 @@
+node_modules
+.git
+.github
+unraid
+README.md
+LICENSE
+*.zip

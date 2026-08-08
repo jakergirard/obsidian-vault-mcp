@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>obsidian-vault-mcp</Name>
+  <Repository>ghcr.io/jakergirard/obsidian-vault-mcp:latest</Repository>
+  <Registry>https://github.com/jakergirard/obsidian-vault-mcp/pkgs/container/obsidian-vault-mcp</Registry>
+  <Network>bridge</Network>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/jakergirard/obsidian-vault-mcp/issues</Support>
+  <Project>https://github.com/jakergirard/obsidian-vault-mcp</Project>
+  <Overview>MCP server + Obsidian Sync in one container. Keeps a live copy of your Obsidian vault synced via obsidian-headless and exposes it to Claude (or any MCP client) over Streamable HTTP with bearer-token auth, so Claude can read and write your notes from any device. Requires an Obsidian Sync subscription. To reach it from Claude web/mobile you must expose it over public HTTPS (Tailscale Funnel, Cloudflare Tunnel, or a reverse proxy) because Claude's connectors originate from Anthropic's cloud. See the project README for setup recipes. Note: obsidian-headless is downloaded from npm on first start (it is not bundled in the image).</Overview>
+  <Category>Productivity: Tools:</Category>
+  <WebUI/>
+  <TemplateURL>https://raw.githubusercontent.com/jakergirard/obsidian-vault-mcp/main/unraid/obsidian-vault-mcp.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/jakergirard/obsidian-vault-mcp/main/icon.png</Icon>
+  <Config Name="MCP Port" Target="3000" Default="3000" Mode="tcp" Description="Port the MCP server listens on." Type="Port" Display="always" Required="true" Mask="false">3000</Config>
+  <Config Name="Vault" Target="/vault" Default="/mnt/user/appdata/obsidian-vault-mcp/vault" Mode="rw" Description="Local synced copy of your Obsidian vault." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/obsidian-vault-mcp/vault</Config>
+  <Config Name="Data" Target="/data" Default="/mnt/user/appdata/obsidian-vault-mcp/data" Mode="rw" Description="Persistent state: Obsidian Sync session, obsidian-headless install, generated MCP token." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/obsidian-vault-mcp/data</Config>
+  <Config Name="Obsidian Email" Target="OBSIDIAN_EMAIL" Default="" Mode="" Description="Obsidian account email. Leave blank to log in manually with: docker exec -it obsidian-vault-mcp ob login" Type="Variable" Display="always" Required="false" Mask="false"></Config>
+  <Config Name="Obsidian Password" Target="OBSIDIAN_PASSWORD" Default="" Mode="" Description="Obsidian account password. Leave blank to log in manually." Type="Variable" Display="always" Required="false" Mask="true"></Config>
+  <Config Name="Obsidian TOTP Secret" Target="OBSIDIAN_TOTP_SECRET" Default="" Mode="" Description="Base32 TOTP secret if 2FA is enabled on your Obsidian account (the secret, not a 6-digit code)." Type="Variable" Display="always" Required="false" Mask="true"></Config>
+  <Config Name="Vault Name" Target="OBSIDIAN_VAULT" Default="" Mode="" Description="Name of the remote vault to sync, exactly as it appears in Obsidian Sync." Type="Variable" Display="always" Required="true" Mask="false"></Config>
+  <Config Name="MCP Token" Target="MCP_TOKEN" Default="" Mode="" Description="Bearer token clients must send. Leave blank to auto-generate one (printed in the container log and saved to /data/mcp_token)." Type="Variable" Display="always" Required="false" Mask="true"></Config>
+  <Config Name="Read Only" Target="READ_ONLY" Default="false" Mode="" Description="Set to true to disable write_note/append_note/patch_note." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+</Container>
