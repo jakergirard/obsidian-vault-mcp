@@ -1,6 +1,8 @@
-<?xml version="1.0"?>
-<Profile>
-  <Name>jakergirard's Repository</Name>
+<?xml version="1.0" encoding="utf-8"?>
+<Maintainer>
   <Icon>https://avatars.githubusercontent.com/jakergirard</Icon>
+  <Profile>
+    Systems administrator and open-source contributor. Maintainer of obsidian-vault-mcp: MCP server + Obsidian Sync in one container, giving Claude (or any MCP client) read/write access to your Obsidian vault from any device.
+  </Profile>
   <WebPage>https://github.com/jakergirard</WebPage>
-</Profile>
+</Maintainer>
