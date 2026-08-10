@@ -23,7 +23,7 @@ docker run -d --name obsidian-vault-mcp \
   ghcr.io/jakergirard/obsidian-vault-mcp:latest
 ```
 
-Watch the log on first start: it installs `obsidian-headless`, logs in, pulls the vault, prints the generated MCP bearer token, then serves MCP at `http://<host>:3000/mcp`.
+Watch the log on first start: it installs `obsidian-headless`, logs in, pulls the vault, prints the generated MCP access token, then serves MCP at `http://<host>:3000/t/<token>/mcp`.
 
 Prefer not to put credentials in env vars? Leave `OBSIDIAN_EMAIL`/`OBSIDIAN_PASSWORD` unset and run the interactive login once instead; the session persists in `/data`:
 
@@ -44,7 +44,7 @@ A Community Applications template lives in [`unraid/obsidian-vault-mcp.xml`](unr
 | `OBSIDIAN_VAULT_PASSWORD` | e2ee vaults | | Vault **end-to-end encryption** password, set when the remote vault was created. Required if the vault uses e2ee; leave unset for standard encryption. |
 | `OBSIDIAN_TOTP_SECRET` | no | | Base32 TOTP secret if 2FA is enabled (the secret itself, not a 6-digit code). |
 | `OBSIDIAN_VAULT` | yes | | Remote vault name, exactly as shown in Obsidian Sync (`ob sync-list-remote` lists them). |
-| `MCP_TOKEN` | no | auto | Bearer token clients must send. Auto-generated, printed in the log, and saved to `/data/mcp_token` if unset. |
+| `MCP_TOKEN` | no | auto | Access token; clients connect at `/t/<token>/mcp`. Auto-generated, printed in the log, and saved to `/data/mcp_token` if unset. |
 | `PORT` | no | `3000` | MCP server port. |
 | `READ_ONLY` | no | `false` | `true` disables the write tools. |
 | `OBSIDIAN_HEADLESS_VERSION` | no | `latest` | Pin the `obsidian-headless` version installed on first start. |
@@ -63,9 +63,11 @@ Volumes: `/vault` (the synced vault) and `/data` (Obsidian Sync session, `obsidi
 ## Connecting Claude
 
 1. Claude `Settings` > `Connectors` > `Add custom connector`
-2. URL: `https://<your-public-hostname>/mcp`
-3. Request headers: `Authorization: Bearer <your token>` (token is in the container log or `/data/mcp_token`)
+2. URL: `https://<your-public-hostname>/t/<your token>/mcp` (token is in the container log or `/data/mcp_token`)
+3. Leave the OAuth fields blank
 4. Enable the connector in a chat and ask Claude to list your vault
+
+The URL carries the token because Claude's custom connector dialog offers no header or token field, only OAuth. If that ever changes, header auth may return; for now the URL is the credential.
 
 ## Tools
 
@@ -82,7 +84,8 @@ All paths are jailed to `/vault`.
 
 ## Security notes
 
-- Anyone with the URL **and** the bearer token can read and write your entire vault. Treat the token like a password; rotate it by changing `MCP_TOKEN` (or deleting `/data/mcp_token`) and restarting.
+- The URL is the credential: anyone who has it can read and write your entire vault. Treat the full URL like a password. Rotate by changing `MCP_TOKEN` (or deleting `/data/mcp_token`) and restarting; the old URL dies instantly.
+- URLs land in logs more readily than headers do, so don't paste the connector URL anywhere you wouldn't paste a password.
 - Only expose the server over HTTPS (all three public recipes above provide it).
 - `READ_ONLY=true` if you only want Claude reading notes.
 - Vault contents may include sensitive material; think before exposing.

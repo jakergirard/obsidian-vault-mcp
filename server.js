@@ -12,7 +12,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { z } from "zod";
 
-const VERSION = "1.0.0";
+const VERSION = "1.1.0";
 const PORT = Number.parseInt(process.env.PORT || "3000", 10);
 const VAULT = path.resolve(process.env.VAULT_DIR || "/vault");
 const DATA = path.resolve(process.env.DATA_DIR || "/data");
@@ -36,7 +36,7 @@ function loadToken() {
   const token = crypto.randomBytes(32).toString("hex");
   fs.mkdirSync(DATA, { recursive: true });
   fs.writeFileSync(file, token + "\n", { mode: 0o600 });
-  console.log(`[mcp] Generated bearer token (saved to ${file}):`);
+  console.log(`[mcp] Generated access token (saved to ${file}):`);
   console.log(`[mcp]   ${token}`);
   return token;
 }
@@ -51,11 +51,8 @@ function tokenMatches(candidate) {
 }
 
 function auth(req, res, next) {
-  const header = req.headers.authorization || "";
-  const bearer = header.startsWith("Bearer ") ? header.slice(7).trim() : "";
-  const apiKey =
-    typeof req.headers["x-api-key"] === "string" ? req.headers["x-api-key"].trim() : "";
-  if (tokenMatches(bearer) || tokenMatches(apiKey)) return next();
+  const urlToken = typeof req.params?.token === "string" ? req.params.token.trim() : "";
+  if (tokenMatches(urlToken)) return next();
   res.status(401).json({ error: "Unauthorized" });
 }
 
@@ -279,7 +276,9 @@ app.use(express.json({ limit: "16mb" }));
 
 app.get("/health", (_req, res) => res.json({ ok: true, version: VERSION, readOnly: READ_ONLY }));
 
-app.post("/mcp", auth, async (req, res) => {
+app.post("/t/:token/mcp", auth, handleMcp);
+
+async function handleMcp(req, res) {
   const server = buildServer();
   const transport = new StreamableHTTPServerTransport({
     sessionIdGenerator: undefined,
@@ -302,7 +301,7 @@ app.post("/mcp", auth, async (req, res) => {
       });
     }
   }
-});
+}
 
 const methodNotAllowed = (_req, res) =>
   res.status(405).json({
@@ -310,8 +309,8 @@ const methodNotAllowed = (_req, res) =>
     error: { code: -32000, message: "Method not allowed" },
     id: null,
   });
-app.get("/mcp", auth, methodNotAllowed);
-app.delete("/mcp", auth, methodNotAllowed);
+app.get("/t/:token/mcp", auth, methodNotAllowed);
+app.delete("/t/:token/mcp", auth, methodNotAllowed);
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(

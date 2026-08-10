@@ -1,6 +1,6 @@
 {
   "name": "obsidian-vault-mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "MCP server + Obsidian Sync (obsidian-headless) in one container, so Claude can read/write your Obsidian vault from any device",
   "type": "module",
   "main": "server.js",

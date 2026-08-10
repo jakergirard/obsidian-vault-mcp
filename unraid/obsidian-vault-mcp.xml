@@ -5,6 +5,7 @@
   <Registry>https://github.com/jakergirard/obsidian-vault-mcp/pkgs/container/obsidian-vault-mcp</Registry>
   <Network>bridge</Network>
   <Shell>bash</Shell>
+  <TailscaleStateDir>/data/.tailscale_state</TailscaleStateDir>
   <Privileged>false</Privileged>
   <Support>https://github.com/jakergirard/obsidian-vault-mcp/issues</Support>
   <Project>https://github.com/jakergirard/obsidian-vault-mcp</Project>
@@ -22,6 +23,6 @@
   <Config Name="Obsidian TOTP Secret" Target="OBSIDIAN_TOTP_SECRET" Default="" Mode="" Description="Base32 TOTP secret if 2FA is enabled on your Obsidian account (the secret, not a 6-digit code)." Type="Variable" Display="always" Required="false" Mask="true"></Config>
   <Config Name="Vault Password (E2E)" Target="OBSIDIAN_VAULT_PASSWORD" Default="" Mode="" Description="Vault end-to-end encryption password, set when the remote vault was created. This is NOT your account password. Leave blank only if the vault uses standard (non-E2E) encryption." Type="Variable" Display="always" Required="false" Mask="true"></Config>
   <Config Name="Vault Name" Target="OBSIDIAN_VAULT" Default="" Mode="" Description="Name of the remote vault to sync, exactly as it appears in Obsidian Sync." Type="Variable" Display="always" Required="true" Mask="false"></Config>
-  <Config Name="MCP Token" Target="MCP_TOKEN" Default="" Mode="" Description="Bearer token clients must send. Leave blank to auto-generate one (printed in the container log and saved to /data/mcp_token)." Type="Variable" Display="always" Required="false" Mask="true"></Config>
+  <Config Name="MCP Token" Target="MCP_TOKEN" Default="" Mode="" Description="Access token used in the connector URL: https://&lt;host&gt;/t/&lt;token&gt;/mcp. Leave blank to auto-generate one (printed in the container log and saved to /data/mcp_token)." Type="Variable" Display="always" Required="false" Mask="true"></Config>
   <Config Name="Read Only" Target="READ_ONLY" Default="false" Mode="" Description="Set to true to disable write_note/append_note/patch_note." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
 </Container>
