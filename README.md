@@ -56,9 +56,21 @@ Volumes: `/vault` (the synced vault) and `/data` (Obsidian Sync session, `obsidi
 **Important:** Claude web and mobile connectors originate from **Anthropic's cloud**, not from your device. A LAN or Tailscale IP is not reachable from there. Pick one:
 
 1. **Tailscale Funnel** (recommended if you run Tailscale): on the Docker host, `tailscale funnel --bg 3000`. You get `https://<host>.<tailnet>.ts.net` with TLS, and nothing else on your network is exposed. Requires HTTPS certs and the `funnel` node attribute enabled in your tailnet policy.
-2. **Cloudflare Tunnel**: point a `cloudflared` tunnel at `http://<host>:3000` on a hostname you own.
-3. **Reverse proxy**: any HTTPS reverse proxy (Nginx Proxy Manager, Caddy, Traefik) forwarding to port 3000.
-4. **LAN / tailnet only**: no public exposure, but then only clients that connect from your own machines work, e.g. Claude Desktop or Claude Code pointed at `http://<tailscale-ip>:3000/mcp`. Claude web and mobile will not work in this mode.
+2. **Cloudflare Tunnel**: point a `cloudflared` tunnel at `http://<host>:3000` on a hostname you own. On Unraid: run the `cloudflared` container from Community Applications with a remotely-managed tunnel token, then add a public hostname in Zero Trust with service `http://<unraid-ip>:3000`.
+3. **Reverse proxy**: any HTTPS reverse proxy (Nginx Proxy Manager, Caddy, Traefik) forwarding to port 3000. No websockets needed; the server answers plain JSON. nginx-based proxies (including NPM) default to 1 MB request bodies, which fails large note writes with a 413; raise `client_max_body_size` to `16m` to match the server limit.
+4. **LAN / tailnet only**: no public exposure, but then only clients that connect from your own machines work, e.g. Claude Desktop or Claude Code pointed at `http://<tailscale-ip>:3000/t/<token>/mcp`. Claude web and mobile will not work in this mode.
+
+### Unraid + Tailscale Funnel walkthrough (recommended on Unraid)
+
+The template pre-stages the entire Tailscale config with Tailscale disabled; enabling it is one toggle:
+
+1. Edit the container > `Use Tailscale` > on
+2. Hostname, Funnel mode, port `3000`, and state dir come pre-filled from the template; adjust the hostname if you want a different URL
+3. Apply, open the container log, click the `To authenticate, visit...` link to approve the node on your tailnet (approve Funnel if prompted)
+4. One-time, tailnet-wide: admin console > `DNS` > enable `HTTPS Certificates` (first cert issuance can take a minute and may log a few retries)
+5. Admin console > `Machines` > your container node > `Disable key expiry`, or the node silently drops off the tailnet after ~180 days
+
+Connector URL: `https://<hostname>.<tailnet>.ts.net/t/<token>/mcp`
 
 ## Connecting Claude
 
