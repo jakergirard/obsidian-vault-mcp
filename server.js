@@ -12,7 +12,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { z } from "zod";
 
-const VERSION = "1.1.0";
+const VERSION = "1.2.0";
 const PORT = Number.parseInt(process.env.PORT || "3000", 10);
 const VAULT = path.resolve(process.env.VAULT_DIR || "/vault");
 const DATA = path.resolve(process.env.DATA_DIR || "/data");
