@@ -45,10 +45,17 @@ if [[ ! -f "$DATA_DIR/.vault_linked" ]]; then
     ob sync-list-remote || true
     sleep 60
   done
-  log "Linking remote vault '${OBSIDIAN_VAULT}'"
-  ob sync-setup --vault "$OBSIDIAN_VAULT"
-  log "Initial pull (this can take a while on a large vault)"
-  ob sync
+  SETUP_ARGS=(--vault "$OBSIDIAN_VAULT")
+  if [[ -n "${OBSIDIAN_VAULT_PASSWORD:-}" ]]; then
+    SETUP_ARGS+=(--password "$OBSIDIAN_VAULT_PASSWORD")
+  fi
+  log "Linking remote vault '${OBSIDIAN_VAULT}' and running initial pull (can take a while on a large vault)"
+  until ob sync-setup "${SETUP_ARGS[@]}" < /dev/null && ob sync; do
+    log "Vault link or initial sync failed. If this vault is end-to-end encrypted, set"
+    log "OBSIDIAN_VAULT_PASSWORD to the vault encryption password (NOT the account password)."
+    log "Retrying in 60s"
+    sleep 60
+  done
   touch "$DATA_DIR/.vault_linked"
 fi
 

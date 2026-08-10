@@ -40,7 +40,8 @@ A Community Applications template lives in [`unraid/obsidian-vault-mcp.xml`](unr
 | Variable | Required | Default | Description |
 | --- | --- | --- | --- |
 | `OBSIDIAN_EMAIL` | no | | Obsidian account email. Omit to use `docker exec -it <name> ob login` instead. |
-| `OBSIDIAN_PASSWORD` | no | | Obsidian account password. |
+| `OBSIDIAN_PASSWORD` | no | | Obsidian **account** password (not the vault encryption password). |
+| `OBSIDIAN_VAULT_PASSWORD` | e2ee vaults | | Vault **end-to-end encryption** password, set when the remote vault was created. Required if the vault uses e2ee; leave unset for standard encryption. |
 | `OBSIDIAN_TOTP_SECRET` | no | | Base32 TOTP secret if 2FA is enabled (the secret itself, not a 6-digit code). |
 | `OBSIDIAN_VAULT` | yes | | Remote vault name, exactly as shown in Obsidian Sync (`ob sync-list-remote` lists them). |
 | `MCP_TOKEN` | no | auto | Bearer token clients must send. Auto-generated, printed in the log, and saved to `/data/mcp_token` if unset. |
