@@ -5,7 +5,6 @@
   <Registry>https://github.com/jakergirard/obsidian-vault-mcp/pkgs/container/obsidian-vault-mcp</Registry>
   <Network>bridge</Network>
   <Shell>bash</Shell>
-  <TailscaleStateDir>/data/.tailscale_state</TailscaleStateDir>
   <Privileged>false</Privileged>
   <Support>https://github.com/jakergirard/obsidian-vault-mcp/issues</Support>
   <Project>https://github.com/jakergirard/obsidian-vault-mcp</Project>
@@ -25,4 +24,24 @@
   <Config Name="Vault Name" Target="OBSIDIAN_VAULT" Default="" Mode="" Description="Name of the remote vault to sync, exactly as it appears in Obsidian Sync." Type="Variable" Display="always" Required="true" Mask="false"></Config>
   <Config Name="MCP Token" Target="MCP_TOKEN" Default="" Mode="" Description="Access token used in the connector URL: https://&lt;host&gt;/t/&lt;token&gt;/mcp. Leave blank to auto-generate one (printed in the container log and saved to /data/mcp_token)." Type="Variable" Display="always" Required="false" Mask="true"></Config>
   <Config Name="Read Only" Target="READ_ONLY" Default="false" Mode="" Description="Set to true to disable write_note/append_note/patch_note." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <TailscaleEnabled>false</TailscaleEnabled>
+  <TailscaleIsExitNode>false</TailscaleIsExitNode>
+  <TailscaleHostname>obsidian-vault-mcp</TailscaleHostname>
+  <TailscaleExitNodeIP/>
+  <TailscaleSSH>false</TailscaleSSH>
+  <TailscaleUserspaceNetworking>false</TailscaleUserspaceNetworking>
+  <TailscaleLANAccess>false</TailscaleLANAccess>
+  <TailscaleServe>funnel</TailscaleServe>
+  <TailscaleWebUI/>
+  <TailscaleServePort>3000</TailscaleServePort>
+  <TailscaleServeTarget/>
+  <TailscaleServeLocalPath/>
+  <TailscaleServeProtocol/>
+  <TailscaleServeProtocolPort/>
+  <TailscaleServePath/>
+  <TailscaleDParams/>
+  <TailscaleParams/>
+  <TailscaleRoutes/>
+  <TailscaleAcceptRoutes>false</TailscaleAcceptRoutes>
+  <TailscaleStateDir>/data/.tailscale_state</TailscaleStateDir>
 </Container>
